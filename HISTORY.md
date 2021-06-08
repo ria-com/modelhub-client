@@ -1,3 +1,6 @@
+# Release 0.1.1
+* Added Simple ModelHub Nginx Server Example
+
 # Release 0.1.0
 * Added base local machine storage tools
 * Added model downloading

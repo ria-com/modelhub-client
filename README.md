@@ -74,6 +74,36 @@ print(models_list)
 }
 ```
 
+## Simple ModelHub Nginx Server Example 
+```nginx
+server {
+    # Port
+    listen 5000;
+    
+    location /storage {
+        # MAX size of uploaded file, 0 mean unlimited
+        client_max_body_size 0;
+        
+        # Allow autocreate folder here if necessary
+        create_full_put_path    on;
+        
+        # Temporary folder
+        client_body_temp_path /tmp;
+        
+        # dav allowed method
+        dav_methods     PUT DELETE MKCOL COPY MOVE;
+        
+        # Allow current scope perform specified DAV method
+        dav_ext_methods PROPFIND OPTIONS;
+        
+        # In this folder, newly created folder or file is to have specified permission. If none is given, default is user:rw. If all or group permission is specified, user could be skipped
+        dav_access      user:rw group:rw all:r;
+        
+        # Local folder
+        alias /data/modelhub;
+    }
+```
+
 ## Tests
 ```bash
 python3 ./tests/test.py
