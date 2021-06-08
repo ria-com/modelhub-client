@@ -1,9 +1,6 @@
 import os
 import setuptools
 
-# get project name
-name = os.path.basename(os.getcwd()).replace("-", "_").replace(" ", "_").lower()
-
 # get project long description
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
@@ -17,7 +14,7 @@ with open("requirements.txt", "r", encoding="utf-8") as fh:
     packages = fh.read().split("/n")
 
 setuptools.setup(
-    name=name,
+    name="modelhub-client",
     version=version,
     author='RIA.com',
     author_email='dmytro.probachay@ria.com',
