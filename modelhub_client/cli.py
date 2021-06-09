@@ -6,12 +6,8 @@ from . import (ModelHub,
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('config_format',
-                        action='store_true',
-                        help='Show models config example')
-    parser.add_argument('auth',
-                        action='store_true',
-                        help='Show/Save modelhub remote url')
+    parser.add_argument('action',
+                        choices=['config_format', 'auth'])
     parser.add_argument('--remote_url',
                         type=str,
                         required=False,
