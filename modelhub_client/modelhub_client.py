@@ -9,8 +9,17 @@ import shutil
 from git import Repo
 from git.remote import RemoteProgress
 from tqdm import tqdm
-from zipfile import ZipFile
+from zipfile import ZipFile, ZIP_DEFLATED
 from typing import Dict, List
+
+
+def zipdir(path, ziph):
+    # ziph is zipfile handle
+    for root, dirs, files in os.walk(path):
+        for file in files:
+            ziph.write(os.path.join(root, file),
+                       os.path.relpath(os.path.join(root, file),
+                                       os.path.join(path, '..')))
 
 
 class CloneProgress(RemoteProgress):
@@ -218,3 +227,35 @@ class ModelHub:
 
         if remove_source:
             shutil.rmtree(local_dir)
+
+    def store_remote_by_json(self, json_path):
+        with open(json_path, 'r') as json_file:
+            models = json.load(json_file)
+        for model_name in models:
+            info = models[model_name]
+            if models[model_name].get("path", None):
+                basename = os.path.basename(models[model_name]["path"])
+                dirname = os.path.dirname(models[model_name]["path"])
+                if os.path.isdir(models[model_name]["path"]):
+                    with ZipFile(f'{basename}.zip', 'w', ZIP_DEFLATED) as zipf:
+                        zipdir(models[model_name]["path"], zipf)
+                    basename = f'{basename}.zip'
+                server_dirname = os.path.join(
+                    "models",
+                    info["application"],
+                    model_name
+                )
+                self.store_remote_file(dirname, server_dirname, basename)
+            if models[model_name].get("dataset_path", None):
+                basename = os.path.basename(models[model_name]["dataset_path"])
+                dirname = os.path.dirname(models[model_name]["dataset_path"])
+                if os.path.isdir(models[model_name]["path"]):
+                    with ZipFile(f'{basename}.zip', 'w', ZIP_DEFLATED) as zipf:
+                        zipdir(models[model_name]["path"], zipf)
+                    basename = f'{basename}.zip'
+                server_dirname = os.path.join(
+                    "dataset",
+                    info["application"],
+                    model_name
+                )
+                self.store_remote_file(dirname, server_dirname, basename)

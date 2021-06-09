@@ -48,16 +48,28 @@ print(models_list)
         # [local_storage]/models/[application]/[model_name] dir
         "url": "https://nomeroff.net.ua/models/options/torch/numberplate_options_2021_05_23.pt",
         
+        # path to model
+        # if not exists model will by downloaded by `url`
+        "path": "",
+        
         # model dataset url for downloading
         # dataset will be downloaded into 
         # [local_storage]/datasets/[application]/[model_name] dir
         "dataset": "https://nomeroff.net.ua/datasets/autoriaNumberplateOptionsDataset-2021-05-17.zip",
+        
+        # path to dataset
+        # if not exists dataset will by downloaded by `dataset`
+        "dataset_path": "",
         
         # model repo url for cloning
         # and pushing into PATH
         # repo will be cloned into 
         # [local_storage]/repos/[application]/[model_name] dir
         "repo": "https://github.com/ria-com/nomeroff-net",
+        
+        # path to repo
+        # if not exists repo will by downloaded by `repo`
+        "repo_path": "",
         
         # model description (not required)
         "description": "Numberplate Options Classification",
@@ -99,6 +111,32 @@ server {
         # Local folder
         alias /data/modelhub;
     }
+```
+
+## Command Line Interface
+get models config example
+```bash
+modelhub_client config_format
+```
+
+get current remote hub
+```bash
+modelhub_client auth 
+```
+
+set remote hub
+```bash
+modelhub_client auth --remote_url=127.0.0.1:5000 
+```
+
+load local models/datasets by `--config_path` into hub `--remote_url`
+```bash
+modelhub_client remote_store --remote_url=127.0.0.1:5000 --config_path=example.json 
+```
+
+if auth load local models/datasets by `--config_path` into authed hub
+```bash
+modelhub_client remote_store --config_path=example.json 
 ```
 
 ## Tests
