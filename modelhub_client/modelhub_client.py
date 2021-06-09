@@ -162,15 +162,11 @@ class ModelHub:
         p.mkdir(parents=True, exist_ok=True)
 
         dataset_path = info['dataset_path']
-        _, file_extension = os.path.splitext(info['dataset_path'])
+        archive_dir_path, file_extension = os.path.splitext(info['dataset_path'])
         if file_extension != '.zip':
             raise Exception("Not supported file extension!")
 
-        archive_name = os.path.basename(info["dataset_path"])
-        _, archive_dir_name = os.path.splitext(archive_name)
-        archive_dir_path = os.path.join(os.path.dirname(info['dataset_path']), archive_dir_name)
         info['dataset_path'] = archive_dir_path
-
         self.download(info["dataset"], info["dataset_path"])
         with ZipFile(dataset_path, 'r') as zipObj:
             dir_to_extract = os.path.join(os.path.dirname(info['path']))
@@ -194,20 +190,20 @@ class ModelHub:
 
     def save_remote_file(self, update_file: str, filename: str) -> None:
         url = os.path.join(self.remote_storage, update_file)
-        request = requests.put(url, data=open(filename, 'rb').read(), headers={})
-        return json.loads(request.content)
+        response = requests.put(url, data=open(filename, 'rb').read(), headers={})
+        response.raise_for_status()
 
     def rm_remote(self, dir_for_remove):
         url = os.path.join(self.remote_storage, dir_for_remove)
-        res = requests.request('DELETE', url)
-        return res
+        response = requests.request('DELETE', url)
+        response.raise_for_status()
 
     def mkdir_remote(self, new_dir):
         if new_dir[-1] != "/":
             new_dir = f"{new_dir}/"
         url = os.path.join(self.remote_storage, new_dir)
-        res = requests.request('MKCOL', url)
-        return res
+        response = requests.request('MKCOL', url)
+        response.raise_for_status()
 
     def store_remote_file(self, local_dir, server_dir, filename):
         upload_from = os.path.join(local_dir, filename)
@@ -228,7 +224,12 @@ class ModelHub:
         if remove_source:
             shutil.rmtree(local_dir)
 
-    def store_remote_by_json(self, json_path):
+    def store_remote_by_json(self, json_path: str) -> None:
+        """
+        TODO: Add remove remote before save
+        :param json_path:
+        :return:
+        """
         with open(json_path, 'r') as json_file:
             models = json.load(json_file)
         for model_name in models:

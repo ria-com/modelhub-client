@@ -1,0 +1,7 @@
+{
+    "numberplate_options": {
+        "path": "./data/models/Numberplate Options Application/numberplate_options/numberplate_options_2021_05_23.pt",
+
+        "application": "Numberplate Options Application"
+    }
+}

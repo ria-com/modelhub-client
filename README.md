@@ -131,12 +131,12 @@ modelhub_client auth --remote_url=127.0.0.1:5000
 
 load local models/datasets by `--config_path` into hub `--remote_url`
 ```bash
-modelhub_client remote_store --remote_url=127.0.0.1:5000 --config_path=example.json 
+modelhub_client remote_store --remote_url=127.0.0.1:5000 --config_path=./data/remote_loading_json_eample.json 
 ```
 
 if auth load local models/datasets by `--config_path` into authed hub
 ```bash
-modelhub_client remote_store --config_path=example.json 
+ modelhub_client remote_store --config_path=./data/remote_loading_json_eample.json
 ```
 
 ## Tests
