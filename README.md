@@ -29,6 +29,8 @@ model_hub = ModelHub(models=models_example,
 
 # download model
 model_hub.download_model_by_name("numberplate_options")
+# model_hub.download_repo_for_model("numberplate_options")
+# model_hub.download_dataset_for_model("numberplate_options")
 
 # ls local storage
 models_list = model_hub.ls_models_local()
@@ -136,7 +138,7 @@ modelhub_client remote_store --remote_url=127.0.0.1:5000 --config_path=./data/re
 
 if auth load local models/datasets by `--config_path` into authed hub
 ```bash
- modelhub_client remote_store --config_path=./data/remote_loading_json_eample.json
+modelhub_client remote_store --config_path=./data/remote_loading_json_eample.json
 ```
 
 ## Tests
