@@ -48,6 +48,23 @@ class ModelHub:
         self.models = models
         self.local_storage = local_storage
         self.remote_storage = remote_storage
+        if self.remote_storage is None:
+            self.get_auth()
+
+    def save_auth(self, remote_storage: str = None) -> None:
+        if remote_storage is None:
+            remote_storage = self.remote_storage
+        current_file_dir = os.path.dirname(os.path.abspath(__file__))
+        auth_path = os.path.join(current_file_dir, "auth.txt")
+        with open(auth_path, "w") as auth_file:
+            auth_file.write(remote_storage)
+
+    def get_auth(self) -> None:
+        current_file_dir = os.path.dirname(os.path.abspath(__file__))
+        auth_path = os.path.join(current_file_dir, "auth.txt")
+        if os.path.exists(auth_path):
+            with open(auth_path, "r") as auth_file:
+                self.remote_storage = auth_file.read()
 
     def ls(self, subdir: str = "./") -> List[str]:
         dirs_list = []
