@@ -16,8 +16,10 @@ class PrintModelsExampleAction(argparse.Action):
 
 def parse_args():
     parser = argparse.ArgumentParser()
-    parser.add_argument('-me',
-                        '--models_example',
+    parser.add_argument('--config_format',
+                        help='Show models config example',
+                        action=PrintModelsExampleAction)
+    parser.add_argument('config_format',
                         help='Show models config example',
                         action=PrintModelsExampleAction)
     args = vars(parser.parse_args())
