@@ -88,7 +88,7 @@ server {
         create_full_put_path    on;
         
         # Temporary folder
-        client_body_temp_path /tmp;
+        client_body_temp_path /tmp 1 2;
         
         # dav allowed method
         dav_methods     PUT DELETE MKCOL COPY MOVE;
