@@ -6,7 +6,7 @@ import setuptools
 def read_version():
     # importing gpustat causes an ImportError :-)
     __PATH__ = os.path.abspath(os.path.dirname(__file__))
-    with open(os.path.join(__PATH__, 'gpustat/__init__.py')) as f:
+    with open(os.path.join(__PATH__, 'modelhub_client/__init__.py')) as f:
         version_match = re.search(r"^__version__ = ['\"]([^'\"]*)['\"]",
                                   f.read(), re.M)
     if version_match:
