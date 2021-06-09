@@ -121,8 +121,20 @@ class ModelHub:
                                        filename=output_path,
                                        reporthook=t.update_to)
 
-    def download_model_by_name(self, model_name: str) -> Dict[str, str]:
-        info = self.models[model_name]
+    def download_model_by_url(self, url: str, application: str, model_name: str) -> Dict[str, str]:
+        models = {
+            model_name: {
+                "application": application,
+                "url": url
+            }
+        }
+        return self.download_model_by_name(model_name, models)
+
+    def download_model_by_name(self, model_name: str, models: Dict = None) -> Dict[str, str]:
+        if models is None:
+            info = self.models[model_name]
+        else:
+            info = models[model_name]
         info["path"] = os.path.join(self.local_storage,
                                     "./models",
                                     info["application"],
