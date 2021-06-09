@@ -93,9 +93,6 @@ server {
         # dav allowed method
         dav_methods     PUT DELETE MKCOL COPY MOVE;
         
-        # Allow current scope perform specified DAV method
-        dav_ext_methods PROPFIND OPTIONS;
-        
         # In this folder, newly created folder or file is to have specified permission. If none is given, default is user:rw. If all or group permission is specified, user could be skipped
         dav_access      user:rw group:rw all:r;
         
