@@ -11,6 +11,8 @@ def parse_args():
     parser.add_argument('auth',
                         help='Show/Save modelhub remote url')
     parser.add_argument('--remote_url',
+                        type=str,
+                        required=False,
                         help='Save modelhub remote remote_url')
     args = vars(parser.parse_args())
     return args
