@@ -233,6 +233,7 @@ class ModelHub:
         with open(json_path, 'r') as json_file:
             models = json.load(json_file)
         for model_name in models:
+            print("[SAVE]", model_name)
             info = models[model_name]
             if models[model_name].get("path", None):
                 basename = os.path.basename(models[model_name]["path"])
@@ -246,6 +247,7 @@ class ModelHub:
                     info["application"],
                     model_name
                 )
+                print("[MODEL URL]", os.path.join(self.remote_storage, server_dirname, basename))
                 self.store_remote_file(dirname, server_dirname, basename)
             if models[model_name].get("dataset_path", None):
                 basename = os.path.basename(models[model_name]["dataset_path"])
@@ -259,4 +261,5 @@ class ModelHub:
                     info["application"],
                     model_name
                 )
+                print("[DATASET URL]", os.path.join(self.remote_storage, server_dirname, basename))
                 self.store_remote_file(dirname, server_dirname, basename)
