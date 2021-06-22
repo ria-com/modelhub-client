@@ -148,7 +148,7 @@ class ModelHub:
         _, file_extension = os.path.splitext(info['path'])
         if file_extension == '.zip':
             archive_name = os.path.basename(info["path"])
-            _, archive_dir_name = os.path.splitext(archive_name)
+            archive_dir_name, _ = os.path.splitext(archive_name)
             archive_dir_path = os.path.join(os.path.dirname(info['path']), archive_dir_name)
 
         if os.path.exists(info["path"]):
