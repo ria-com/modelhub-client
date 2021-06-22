@@ -150,13 +150,13 @@ class ModelHub:
             archive_name = os.path.basename(info["path"])
             _, archive_dir_name = os.path.splitext(archive_name)
             archive_dir_path = os.path.join(os.path.dirname(info['path']), archive_dir_name)
-            info['path'] = archive_dir_path
 
         if os.path.exists(info["path"]):
             return info
 
         self.download(info["url"], info["path"])
         if file_extension == '.zip':
+            info['path'] = archive_dir_path
             with ZipFile(output_path, 'r') as zipObj:
                 dir_to_extract = os.path.join(os.path.dirname(info['path']))
                 zipObj.extractall(dir_to_extract)
