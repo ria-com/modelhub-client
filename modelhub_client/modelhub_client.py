@@ -150,8 +150,10 @@ class ModelHub:
             archive_name = os.path.basename(info["path"])
             archive_dir_name, _ = os.path.splitext(archive_name)
             archive_dir_path = os.path.join(os.path.dirname(info['path']), archive_dir_name)
-
-        if os.path.exists(info["path"]):
+            if os.path.exists(archive_dir_path):
+                info['path'] = archive_dir_path
+                return info
+        elif os.path.exists(info['path']):
             return info
 
         self.download(info["url"], info["path"])
