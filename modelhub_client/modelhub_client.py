@@ -159,10 +159,14 @@ class ModelHub:
         self.download(info["url"], info["path"])
         if file_extension == '.zip':
             info['path'] = archive_dir_path
+            if not os.path.exists(output_path):
+                return info
             with ZipFile(output_path, 'r') as zipObj:
                 dir_to_extract = os.path.join(os.path.dirname(info['path']))
                 zipObj.extractall(dir_to_extract)
-                os.remove(output_path)
+            if not os.path.exists(output_path):
+                return info
+            os.remove(output_path)
         return info
 
     def download_dataset_for_model(self, model_name):
