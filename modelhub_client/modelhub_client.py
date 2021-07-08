@@ -175,7 +175,7 @@ class ModelHub:
             os.remove(output_path)
         return info
 
-    def download_dataset_for_model(self, model_name):
+    def download_dataset_for_model(self, model_name: str) -> Dict[str, str]:
         info = self.models[model_name]
         info["dataset_path"] = os.path.join(self.local_storage,
                                             "./dataset",
@@ -198,13 +198,12 @@ class ModelHub:
             os.remove(dataset_path)
         return info
 
-    def download_repo_for_model(self, model_name: str) -> None:
+    def download_repo_for_model(self, model_name: str) -> Dict[str, str]:
         info = self.models[model_name]
         info["repo_path"] = os.path.join(self.local_storage,
                                          "./repos",
                                          info["application"],
-                                         model_name,
-                                         os.path.basename(info["repo"]))
+                                         model_name)
         if not os.path.exists(info["repo_path"]):
             print("git clone", info["repo"])
             Repo.clone_from(info["repo"],
