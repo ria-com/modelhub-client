@@ -175,7 +175,9 @@ class ModelHub:
             os.remove(output_path)
         return info
 
-    def download_dataset_for_model(self, model_name: str) -> Dict[str, str]:
+    def download_dataset_for_model(self,
+                                   model_name: str,
+                                   delete_source: bool = False) -> Dict[str, str]:
         info = self.models[model_name]
         info["dataset_path"] = os.path.join(self.local_storage,
                                             "./dataset",
@@ -200,7 +202,8 @@ class ModelHub:
         with ZipFile(dataset_path, 'r') as zipObj:
             dir_to_extract = info['dataset_path']
             zipObj.extractall(dir_to_extract)
-            os.remove(dataset_path)
+            if delete_source:
+                os.remove(dataset_path)
         return info
 
     def download_repo_for_model(self, model_name: str) -> Dict[str, str]:
