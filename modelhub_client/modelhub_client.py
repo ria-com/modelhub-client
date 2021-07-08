@@ -187,7 +187,7 @@ class ModelHub:
 
         dataset_path = info['dataset_path']
         _, file_extension = os.path.splitext(info['dataset_path'])
-        archive_dir_path = os.path.basename(info['dataset_path'])
+        archive_dir_path = os.path.dirname(info['dataset_path'])
         if os.path.exists(archive_dir_path):
             info['dataset_path'] = archive_dir_path
             return info
@@ -199,7 +199,7 @@ class ModelHub:
             self.download(info["dataset"], info["dataset_path"])
         info['dataset_path'] = archive_dir_path
         with ZipFile(dataset_path, 'r') as zipObj:
-            dir_to_extract = os.path.join(info['dataset_path'])
+            dir_to_extract = info['dataset_path']
             zipObj.extractall(dir_to_extract)
             os.remove(dataset_path)
         return info
