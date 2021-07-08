@@ -186,9 +186,9 @@ class ModelHub:
         p.mkdir(parents=True, exist_ok=True)
 
         dataset_path = info['dataset_path']
-        _, file_extension = os.path.splitext(info['dataset_path'])
+        check_dir, file_extension = os.path.splitext(info['dataset_path'])
         archive_dir_path = os.path.dirname(info['dataset_path'])
-        if os.path.exists(archive_dir_path):
+        if os.path.exists(check_dir):
             info['dataset_path'] = archive_dir_path
             return info
 
