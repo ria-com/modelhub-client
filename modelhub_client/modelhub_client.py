@@ -191,16 +191,16 @@ class ModelHub:
         check_dir, file_extension = os.path.splitext(info['dataset_path'])
         archive_dir_path = os.path.dirname(info['dataset_path'])
         if os.path.exists(check_dir):
-            info['dataset_path'] = archive_dir_path
+            info['dataset_path'] = check_dir
             return info
 
         if file_extension != '.zip':
             raise Exception("Not supported file extension!")
 
         self.download(info["dataset"], dataset_path)
-        info['dataset_path'] = archive_dir_path
+        info['dataset_path'] = check_dir
         with ZipFile(dataset_path, 'r') as zipObj:
-            dir_to_extract = info['dataset_path']
+            dir_to_extract = archive_dir_path
             zipObj.extractall(dir_to_extract)
             if delete_source:
                 os.remove(dataset_path)
