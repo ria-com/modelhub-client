@@ -200,19 +200,18 @@ class ModelHub:
 
     def download_repo_for_model(self, model_name: str) -> Dict[str, str]:
         info = self.models[model_name]
-        repo_path = os.path.join(self.local_storage,
-                                 "./repos",
-                                 info["application"])
-        info["repo_path"] = os.path.join(self.local_storage,
-                                         "./repos",
-                                         info["application"],
+        pre_repo_path = os.path.join(self.local_storage,
+                                     "./repos",
+                                     info["application"])
+        info["repo_path"] = os.path.join(pre_repo_path,
                                          model_name)
         if not os.path.exists(info["repo_path"]):
             print("git clone", info["repo"])
             Repo.clone_from(info["repo"],
                             info["repo_path"],
                             progress=CloneProgress())
-        sys.path.append(repo_path)
+        sys.path.append(pre_repo_path)
+        sys.path.append(info["repo_path"])
         return info
 
     def save_remote_file(self, update_file: str, filename: str) -> None:
