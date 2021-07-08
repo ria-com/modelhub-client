@@ -190,8 +190,8 @@ class ModelHub:
         if file_extension != '.zip':
             raise Exception("Not supported file extension!")
 
-        info['dataset_path'] = archive_dir_path
         self.download(info["dataset"], info["dataset_path"])
+        info['dataset_path'] = archive_dir_path
         with ZipFile(dataset_path, 'r') as zipObj:
             dir_to_extract = os.path.join(os.path.dirname(info['path']))
             zipObj.extractall(dir_to_extract)
