@@ -17,9 +17,6 @@ class ModelHubClientTest(unittest.TestCase):
         model_hub.download_model_by_name("numberplate_options")
         models_list = model_hub.ls_models_local()
         self.assertEqual(models_list, ["numberplate_options_2021_05_23.pt"])
-        # model_hub.rm_models_local()
-        # models_list = model_hub.ls_models_local()
-        # self.assertEqual(models_list, [])
 
     def test_download_repo_for_model(self) -> None:
         model_hub = ModelHub(models=models_example,
@@ -27,9 +24,6 @@ class ModelHubClientTest(unittest.TestCase):
         model_hub.download_repo_for_model("numberplate_options")
         repos_list = model_hub.ls_repos_local()
         self.assertEqual(repos_list, ["nomeroff-net"])
-        # model_hub.rm_repos_local()
-        # repos_list = model_hub.ls_repos_local()
-        # self.assertEqual(repos_list, [])
 
     def test_download_dataset_for_model(self) -> None:
         model_hub = ModelHub(models=models_example,

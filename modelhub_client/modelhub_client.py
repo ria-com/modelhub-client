@@ -130,16 +130,22 @@ class ModelHub:
         }
         return self.download_model_by_name(model_name, models)
 
-    def download_model_by_name(self, model_name: str, models: Dict = None) -> Dict[str, str]:
+    def download_model_by_name(self,
+                               model_name: str,
+                               models: Dict = None,
+                               path: str = None) -> Dict[str, str]:
         if models is None:
             info = self.models[model_name]
         else:
             info = models[model_name]
-        info["path"] = os.path.join(self.local_storage,
-                                    "./models",
-                                    info["application"],
-                                    model_name,
-                                    os.path.basename(info["url"]))
+        if path is None:
+            info["path"] = os.path.join(self.local_storage,
+                                        "./models",
+                                        info["application"],
+                                        model_name,
+                                        os.path.basename(info["url"]))
+        else:
+            info["path"] = path
 
         p = pathlib.Path(os.path.dirname(info["path"]))
         p.mkdir(parents=True, exist_ok=True)
@@ -205,6 +211,7 @@ class ModelHub:
                             info["repo_path"],
                             progress=CloneProgress())
         sys.path.append(info["repo_path"])
+        return info
 
     def save_remote_file(self, update_file: str, filename: str) -> None:
         url = os.path.join(self.remote_storage, update_file)
