@@ -193,7 +193,7 @@ class ModelHub:
         self.download(info["dataset"], info["dataset_path"])
         info['dataset_path'] = archive_dir_path
         with ZipFile(dataset_path, 'r') as zipObj:
-            dir_to_extract = os.path.join(os.path.dirname(info['path']))
+            dir_to_extract = os.path.join(info['dataset_path'])
             zipObj.extractall(dir_to_extract)
             os.remove(dataset_path)
         return info
