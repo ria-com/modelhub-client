@@ -2,4 +2,4 @@ requests
 tqdm
 typeguard
 jsonpickle
-gitpython
+gitpython<3.1.19
