@@ -1,4 +1,5 @@
 requests
 tqdm
+typeguard
 jsonpickle
 gitpython
