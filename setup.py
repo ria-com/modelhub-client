@@ -39,9 +39,10 @@ setuptools.setup(
     include_package_data=True,
     classifiers=[
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: MIT License",
+        'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
         "Operating System :: OS Independent",
     ],
+    keywords='modelhub modelhub-client ria-com ria.com ria',
     entry_points={
         'console_scripts': ['modelhub_client=modelhub_client:main'],
     },
