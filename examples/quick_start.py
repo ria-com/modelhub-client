@@ -14,6 +14,7 @@ model_hub = ModelHub(models=models_example,
 
 # download model
 model_hub.download_model_by_name("numberplate_options")
+model_hub.download_repo_for_model("numberplate_options")
 
 # ls local storage
 models_list = model_hub.ls_models_local()

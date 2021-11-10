@@ -215,9 +215,13 @@ class ModelHub:
                                          model_name)
         if not os.path.exists(info["repo_path"]):
             print("git clone", info["repo"])
-            Repo.clone_from(info["repo"],
-                            info["repo_path"],
-                            progress=CloneProgress())
+            repo = Repo.clone_from(
+                info["repo"],
+                info["repo_path"],
+                progress=CloneProgress(),
+                no_checkout=True)
+            if "commit_id" in info:
+                repo.git.checkout(info["commit_id"])
         sys.path.append(pre_repo_path)
         sys.path.append(info["repo_path"])
         return info
