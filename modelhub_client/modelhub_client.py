@@ -219,7 +219,7 @@ class ModelHub:
                 info["repo"],
                 info["repo_path"],
                 progress=CloneProgress(),
-                no_checkout=True)
+                no_checkout="commit_id" in info)
             if "commit_id" in info:
                 repo.git.checkout(info["commit_id"])
         sys.path.append(pre_repo_path)
