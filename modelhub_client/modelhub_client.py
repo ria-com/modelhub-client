@@ -6,6 +6,7 @@ import sys
 import glob
 import json
 import shutil
+import ujson
 from git import Repo
 from git.remote import RemoteProgress
 from tqdm import tqdm
@@ -43,22 +44,31 @@ class DownloadProgressBar(tqdm):
 class ModelHub:
     def __init__(self,
                  models: Dict[str, Dict[str, str]] = None,
+                 model_config_urls: List = None,
                  local_storage: str = None,
                  remote_storage: str = None,
                  postfix: str = "./modelhub",
                  ) -> None:
-        if models is None:
-            models = {}
         if local_storage is None:
             local_storage = os.path.join(
                 os.path.dirname(os.path.realpath(__file__)),
                 postfix
             )
-        self.models = models
         self.local_storage = local_storage
         self.remote_storage = remote_storage
         if self.remote_storage is None:
             self.get_auth()
+        if models is None:
+            models = {}
+        self.models = models
+        if model_config_urls is not None:
+            self.load_models_configs(model_config_urls)
+
+    def load_models_configs(self, models_config_urls):
+        for models_config_url in models_config_urls:
+            res = ujson.loads(requests.get(models_config_url).content)
+            self.models[res["name"]] = res
+        return self.models
 
     def save_auth(self, remote_storage: str = None) -> None:
         if remote_storage is None:
