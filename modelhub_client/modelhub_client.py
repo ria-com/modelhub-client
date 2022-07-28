@@ -7,6 +7,7 @@ import glob
 import json
 import shutil
 import ujson
+import warnings
 from git import Repo
 from git.remote import RemoteProgress
 from tqdm import tqdm
@@ -65,9 +66,27 @@ class ModelHub:
             self.load_models_configs(model_config_urls)
 
     def load_models_configs(self, models_config_urls):
+        cache_dir = os.path.join(self.local_storage, "configs")
         for models_config_url in models_config_urls:
-            res = ujson.loads(requests.get(models_config_url).content)
-            self.models[res["name"]] = res
+            head_url, filename = os.path.split(models_config_url)
+            head_url, subdir = os.path.split(head_url)
+            cache_path = os.path.join(cache_dir, subdir, filename)
+            os.makedirs(os.path.join(cache_dir, subdir), exist_ok=True)
+            if os.path.exists(cache_path):
+                with open(cache_path) as fp:
+                    res = json.load(fp)
+                self.models[res["name"]] = res
+            else:
+                try:
+                    response = requests.get(models_config_url)
+                    response.raise_for_status()
+                    data = response.json()
+                    with open(cache_path, "w") as fp:
+                        json.dump(json.dumps(data), fp)
+                    self.models[res["name"]] = data
+                except Exception as e:
+                    warnings.warn(f"WARNING! Can not load from url {models_config_url}.")
+                    warnings.warn(str(e))
         return self.models
 
     def save_auth(self, remote_storage: str = None) -> None:
