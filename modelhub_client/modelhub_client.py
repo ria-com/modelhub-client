@@ -77,16 +77,12 @@ class ModelHub:
                     res = json.load(fp)
                 self.models[res["name"]] = res
             else:
-                try:
-                    response = requests.get(models_config_url)
-                    response.raise_for_status()
-                    data = response.json()
-                    with open(cache_path, "w") as fp:
-                        json.dump(json.dumps(data), fp)
-                    self.models[res["name"]] = data
-                except Exception as e:
-                    warnings.warn(f"WARNING! Can not load from url {models_config_url}.")
-                    warnings.warn(str(e))
+                response = requests.get(models_config_url)
+                response.raise_for_status()
+                data = response.json()
+                with open(cache_path, "w") as fp:
+                    json.dump(data, fp)
+                self.models[data["name"]] = data
         return self.models
 
     def save_auth(self, remote_storage: str = None) -> None:
