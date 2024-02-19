@@ -2,5 +2,5 @@ requests
 tqdm
 typeguard
 jsonpickle
-gitpython
+gitpython=<3.1.42
 ujson
