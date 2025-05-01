@@ -13,6 +13,7 @@ from git.remote import RemoteProgress
 from tqdm import tqdm
 from zipfile import ZipFile, ZIP_DEFLATED
 from typing import Dict, List
+from urllib.parse import urlparse
 
 
 def zipdir(path, ziph):
@@ -68,10 +69,14 @@ class ModelHub:
     def load_models_configs(self, models_config_urls):
         cache_dir = os.path.join(self.local_storage, "configs")
         for models_config_url in models_config_urls:
-            head_url, filename = os.path.split(models_config_url)
-            head_url, subdir = os.path.split(head_url)
-            cache_path = os.path.join(cache_dir, subdir, filename)
-            os.makedirs(os.path.join(cache_dir, subdir), exist_ok=True)
+            # Парсимо шлях з URL (без протоколу і домену)
+            parsed_url = urlparse(models_config_url)
+            relative_path = parsed_url.path.lstrip("/")  # приклад: "models/v1/config.json"
+            cache_path = os.path.join(cache_dir, relative_path)
+
+            # Створюємо відповідну директорію
+            os.makedirs(os.path.dirname(cache_path), exist_ok=True)
+
             if os.path.exists(cache_path):
                 with open(cache_path) as fp:
                     res = json.load(fp)
